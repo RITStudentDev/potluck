@@ -3,6 +3,11 @@ from sqlalchemy.orm import Session
 from models import Post, PostImages, User
 import hashlib
 
+"""
+This file contains functions for SQL queries using SQL Alchemy.
+These functions are called in api.py to handle api logic.
+"""
+
 def to_dict(row):
     return dict(row._mapping) if row is not None else None
 

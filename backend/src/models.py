@@ -2,6 +2,10 @@ import os
 from sqlalchemy import create_engine, String, DateTime, Text, ForeignKey, func
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
+"""
+Database tables are defined here.
+"""
+
 DB_URL = os.getenv("DB_URL") # Change to reference real env variable
 engine = create_engine(DB_URL)
 
