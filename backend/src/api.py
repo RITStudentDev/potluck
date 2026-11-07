@@ -1,6 +1,13 @@
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, Request,status
 from models import Base, engine
 import queries
+
+"""
+This file contains all of the FastAPI backend routes.
+Each route is a point that the front end can direct a message to calling an
+function from to perform an SQL query on the database. The data returned is 
+sent to the front end in a response.
+"""
 
 app = FastAPI(title="Project Food")
 Base.metadata.create_all(engine)
