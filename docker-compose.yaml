@@ -3,6 +3,12 @@ services:
     build:
       context: "./backend"
 
+  nginx:
+    build:
+      context: "./frontend"
+    ports:
+      - "8080:80"
+    
   db:
     image: postgres:18
     restart: always
