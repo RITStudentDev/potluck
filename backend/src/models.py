@@ -1,6 +1,9 @@
-import database
-from sqlalchemy import String, DateTime, Text, ForeignKey, func
+import os
+from sqlalchemy import create_engine, String, DateTime, Text, ForeignKey, func
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+
+DB_URL = os.getenv("DB_URL") # Change to reference real env variable
+engine = create_engine(DB_URL)
 
 class Base(DeclarativeBase):
     pass
@@ -10,7 +13,7 @@ class User(Base):
 
     id = Mapped[int] = mapped_column(primary_key=True)
     username: Mapped[str] = mapped_column(String(25))
-    password: Mapped[int] = mapped_column()
+    password: Mapped[str] = mapped_column(String(255))
     language: Mapped[str] = mapped_column(String(25), default='English')
 
 class Post(Base):
