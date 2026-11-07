@@ -1,6 +1,6 @@
-import database
+from .database import engine
+from .models import Post, PostImages, User
 from sqlalchemy.orm import Session
-from models import engine, Post, PostImages, User
 from sqlalchemy import insert, select, desc
 import hashlib
 
