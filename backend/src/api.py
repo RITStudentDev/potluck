@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException, Request, status
 from sqlalchemy.exc import IntegrityError
+from fastapi.concurrency import run_in_threadpool
 from models import Base, engine
 import queries
 
@@ -12,6 +13,29 @@ sent to the front end in a response.
 
 app = FastAPI(title="Project Food")
 Base.metadata.create_all(engine)
+
+@app.post("/post/", status_code=status.HTTP_201_CREATED)
+async def create_post(request: Request):
+    try:
+        body = await request.json()
+    except ValueError:
+        raise HTTPException(status.HTTP_400_BAD_REQUEST, "Invalid JSON")
+
+    owner = body.get("owner")
+    url = body.get("url")
+    description = body.get("description")
+    if not isinstance(owner, int) or isinstance(owner, bool):
+        raise HTTPException(status.HTTP_422_UNPROCESSABLE_ENTITY, "Owner must be an int")
+    if not isinstance(url, str) or not url.strip():
+        raise HTTPException(status.HTTP_422_UNPROCESSABLE_ENTITY, "URL is required")
+    if not isinstance(description, str) or not description.strip():
+        raise HTTPException(status.HTTP_422_UNPROCESSABLE_ENTITY, "Description is required")
+
+    user = await run_in_threadpool(queries.get_user, owner)
+    if user is None:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "Owner not found")
+    return await run_in_threadpool(queries.create_post, owner, url.strip(), description.strip())
+
 
 @app.get("/post/")
 async def get_post():
