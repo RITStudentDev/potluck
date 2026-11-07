@@ -3,6 +3,9 @@ from sqlalchemy.orm import Session
 from models import Post, PostImages, User
 import hashlib
 
+def to_dict(row):
+    return dict(row._mapping) if row is not None else None
+
 engine = database.engine
 from sqlalchemy import insert, select, desc
 
@@ -17,7 +20,7 @@ def get_big_post():
             ).order_by(desc(Post.like_num))
         ).first()
 
-        return post
+        return to_dict(post)
 
 def get_little_post():
     with Session(engine) as session:
@@ -30,7 +33,7 @@ def get_little_post():
             ).join(PostImages, PostImages.post_id == Post.id).join(User, User.id == Post.owner).order_by(Post.like_num)
         ).first()
 
-        return post
+        return to_dict(post)
     
 def get_user(user_id: int):
     with Session(engine) as session:
@@ -42,7 +45,7 @@ def get_user(user_id: int):
             ).where(User.id == user_id)
         ).first()
 
-        return user
+        return to_dict(user)
 
 def enter_user(username: str, password: str, language: str):
     with Session(engine) as session:
@@ -52,7 +55,9 @@ def enter_user(username: str, password: str, language: str):
                 password=hashlib.sha256(password.encode()).hexdigest(),
                 language=language
             )
-        ).first()
+        )
+        session.commit()
+        user_id = user.inserted_primary_key[0]
 
-        return user
+        return get_user(user_id)
     
