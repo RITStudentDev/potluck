@@ -1,6 +1,7 @@
 import database
 from sqlalchemy.orm import Session
-from models import Post, PostImages, User
+from models import engine, Post, PostImages, User
+from sqlalchemy import insert, select, desc
 import hashlib
 
 """
@@ -11,8 +12,30 @@ These functions are called in api.py to handle api logic.
 def to_dict(row):
     return dict(row._mapping) if row is not None else None
 
-engine = database.engine
-from sqlalchemy import insert, select, desc
+def create_post(owner: int, url: str, description: str):
+    with Session(engine) as session:
+        post = session.execute(
+            insert(Post).values(owner=owner, description=description)
+        )
+        post_id = post.inserted_primary_key[0]
+
+        session.execute(
+            insert(PostImages).values(post_id=post_id, image_url=url)
+        )
+        session.commit()
+
+        record = session.execute(
+            select(
+                Post.id,
+                Post.owner,
+                Post.like_num,
+                Post.description,
+                Post.post_time,
+                PostImages.image_url
+            ).join(PostImages, PostImages.post_id == Post.id)
+            .where(Post.id == post_id)
+        ).first()
+        return to_dict(record)
 
 def get_post():
     with Session(engine) as session:
