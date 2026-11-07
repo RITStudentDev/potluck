@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Backend"
+version = "0.1.0"
+description = "Monolithic backend package containing all source code for this project"
+
+requires-python = ">=3.12"
+dependencies=[
+    "fastapi"
+]
