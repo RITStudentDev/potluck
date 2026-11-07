@@ -9,5 +9,7 @@ description = "Monolithic backend package containing all source code for this pr
 
 requires-python = ">=3.12"
 dependencies=[
-    "fastapi"
+    "fastapi[standard]",
+    "psycopg[binary]",
+    "sqlalchemy"
 ]

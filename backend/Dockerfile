@@ -8,4 +8,4 @@ COPY src/ ./src/
 
 RUN pip install .
 
-CMD ["python", "-m", "src.main"]
+CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0"]
