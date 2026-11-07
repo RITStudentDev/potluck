@@ -1,0 +1,106 @@
+.recipe-container{
+    width: 96%;
+    max-width: 1200px;
+    margin:auto;
+}
+
+.informationLine{
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 15px 20px;
+    border: 1px solid whitesmoke;
+    background-color: gray;
+    margin-top: 15px;
+}
+
+#userNameID{
+    justify-self: start;
+    color: white;
+    font-size: 30px;
+}
+
+.like-button{
+    justify-self: center;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.save-button{
+    justify-self: end;
+    cursor:pointer;
+    font-size: 40px;
+    margin: 20px;
+}
+
+.postImage{
+    border: 2px solid black;
+    text-align: center;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.postImage img{
+    display: block;
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+}
+
+.descriptionOfPost{
+    border: 1px solid whitesmoke;
+    color: white;
+    padding: 20px;
+    background-color: purple;
+    border-radius: 12px;
+    margin-top: 15px;
+}
+
+.descriptionOfPost h1{
+    font-size: 35px;
+    margin: 0 0 15px;
+}
+
+.descriptionOfPost p{
+    font-size: 17px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.recipeDetails{
+    margin-top:2%;
+    padding-top:20px;
+    border-top: 1px solid rgba(255,233,255, 0.35);
+}
+
+.recipeDetails h2{
+    font-size: 21px;
+    margin: 0 0 15px;
+}
+
+.detailsLayout{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.detailLayoutItem{
+    background-color: grey;
+    border: 1px solid whitesmoke;
+    border-radius: 6px;
+    padding: 15px;
+}
+
+.detailLayoutItem span{
+    display:block;
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+.detailLayoutItem strong{
+    font-size: 18px;
+}
