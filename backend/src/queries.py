@@ -44,8 +44,9 @@ def get_post():
                 Post.like_num,
                 Post.owner,
                 Post.description,
-                Post.post_time
-            ).order_by(desc(Post.like_num))
+                Post.post_time,
+                PostImages.image_url
+            ).join(PostImages, PostImages.post_id == Post.id).join(User, User.id == Post.owner).order_by(Post.like_num)
         ).first()
 
         return to_dict(post)
