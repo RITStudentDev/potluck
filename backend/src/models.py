@@ -19,7 +19,7 @@ class User(Base):
 class Post(Base):
     __tablename__ = 'post'
 
-    url: Mapped[str] = mapped_column(Text, primary_key=True)
+    id: Mapped[str] = mapped_column(Text, primary_key=True)
     owner: Mapped[int] = mapped_column(ForeignKey('user.id'))
     likeNum: Mapped[int] = mapped_column(default=0)
     description: Mapped[str] = mapped_column(Text)
