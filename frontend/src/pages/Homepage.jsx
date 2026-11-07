@@ -1,6 +1,6 @@
 import '../css/Homepage.css';
 import veggiePizza from '../images/Veggie-Pizza-12.jpg';
-
+import quesadilla from '../images/quesadillas-2.jpg';
 import { Link } from 'react-router-dom';
 export default function Homepage() {
 
@@ -34,7 +34,13 @@ export default function Homepage() {
                          </div>
 
                         <div className="post">
-                            Post 2
+                            <Link className="post" to="/recipe/veggie-pizza">
+                                <img src={quesadilla} alt="Quesadilla" />
+                                <div className="recipeInfo">
+                                    <h3>Recipe Title: Cheese Quesadillas</h3> 
+                                    <p>@vincent-vue</p>
+                                </div>
+                            </Link>
                             
                         </div>
 
