@@ -11,7 +11,7 @@ class Base(DeclarativeBase):
 class User(Base):
     __tablename__ = 'user'
 
-    id = Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
     username: Mapped[str] = mapped_column(String(25))
     password: Mapped[str] = mapped_column(String(255))
     language: Mapped[str] = mapped_column(String(25), default='English')
