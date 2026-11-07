@@ -9,7 +9,7 @@ def to_dict(row):
 engine = database.engine
 from sqlalchemy import insert, select, desc
 
-def get_big_post():
+def get_post():
     with Session(engine) as session:
         post = session.execute(
             select(
@@ -22,7 +22,7 @@ def get_big_post():
 
         return to_dict(post)
 
-def get_little_post():
+def get_post_card():
     with Session(engine) as session:
         post = session.execute(
             select(
