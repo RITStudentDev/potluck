@@ -1,4 +1,5 @@
-from fastapi import FastAPI, HTTPException, Request,status
+from fastapi import FastAPI, HTTPException, Request, status
+from sqlalchemy.exc import IntegrityError
 from models import Base, engine
 import queries
 
@@ -25,6 +26,25 @@ async def get_post():
     if post is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Post not found")
     return post
+
+@app.post("/user/", status_code=status.HTTP_201_CREATED)
+async def create_user(request: Request):
+    try:
+        body = await request.json()
+    except ValueError:
+        raise HTTPException(status.HTTP_400_BAD_REQUEST, "Invalid JSON")
+
+    uname = body.get("username")
+    pword = body.get("password")
+    lang = body.get("language", "English")
+
+    if not isinstance(uname, str) or not isinstance(pword, str) or not uname or not pword:
+        raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, "Username and password are required")
+
+    try: 
+        return queries.enter_user(uname, pword, lang)
+    except IntegrityError:
+        raise HTTPException(status.HTTP_409_CONFLICT, "User data conflict")
 
 @app.get("/user/{user_id}")
 def get_user(user_id: int):
