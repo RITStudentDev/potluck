@@ -24,7 +24,7 @@ export default function Homepage() {
 
                     <div className="post-grid">
                         <div className="post">
-                            <a>
+                            <a href="RecipePage">
                                 <img src={veggiePizza} alt="Pizza" />
                                 <div className="recipeInfo">
                                     <h3>Recipe Title: Veggie Pizza</h3> 
@@ -47,9 +47,6 @@ export default function Homepage() {
                 </nav>
             </div>
         </div>
-        
-        
-    
         
     );
 }
