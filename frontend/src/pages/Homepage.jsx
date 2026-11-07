@@ -1,6 +1,7 @@
 import '../css/Homepage.css';
 import veggiePizza from '../images/Veggie-Pizza-12.jpg';
 
+import { Link } from 'react-router-dom';
 export default function Homepage() {
 
     return (
@@ -14,23 +15,22 @@ export default function Homepage() {
                 <main className = "content">
                     <div id="featured-post">
                         <img src={veggiePizza} alt="MainPhoto" />
-                         <div className="recipeInfo">
+                        <div className="recipeInfo">
                                     <h3>Recipe Title: Veggie Pizza</h3> 
                                     <p>By: @jakebolton</p>
                                     <p id="description"> A delicious recipe for making a veggie pizza</p>
                         </div>
-
                     </div>
 
                     <div className="post-grid">
                         <div className="post">
-                            <a href="RecipePage">
+                            <Link className="post" to="/recipe/veggie-pizza">
                                 <img src={veggiePizza} alt="Pizza" />
                                 <div className="recipeInfo">
                                     <h3>Recipe Title: Veggie Pizza</h3> 
                                     <p>@jakebolton</p>
                                 </div>
-                            </a>
+                            </Link>
                          </div>
 
                         <div className="post">
