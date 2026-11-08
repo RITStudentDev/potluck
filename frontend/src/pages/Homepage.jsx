@@ -3,13 +3,17 @@ import PostCard from '../components/PostCard';
 import veggiePizza from '../images/Veggie-Pizza-12.jpg';
 import { useState, useEffect } from 'react';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
+console.log(`ENV: ${API_URL}`);
+
 export default function Homepage() {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function loadPosts(){
-            const res = await fetch("/api/posts/?limit=50&offet=0");
+            const res = await fetch(`${API_URL}/posts/?limit=50&offset=0`);
             const feed = await res.json();
             setPosts(feed);
             setLoading(false);
@@ -50,6 +54,7 @@ export default function Homepage() {
                                     likenum={post.like_num}
                                     url={post.image_url}
                                     id={post.id}
+                                    key={post.id}
                                 />
                             ))
                         )}
