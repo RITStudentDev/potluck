@@ -32,7 +32,7 @@ function PostCard({ username, likenum, url, id }) {
 
     return (
         <div className="post-container">
-            <img src={url} alt="food" onClick={doReroute}></img>
+            <img src={url} alt="food" loading="lazy" onClick={doReroute}></img>
             <div className="post-data">
                 <p id="username">{username}</p>
                 <div className='likes'>

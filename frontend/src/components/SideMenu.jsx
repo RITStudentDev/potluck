@@ -93,7 +93,6 @@ export default function SideMenu() {
             <hr />
 
             <section className="side-menu-community">
-                <div className="community-icon">🌍</div>
                 <h3>Share Your Culture</h3>
                 <p>
                     Have a family recipe or a dish worth sharing?

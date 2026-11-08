@@ -2,7 +2,7 @@
     display: flex;
     background-color: #FFFCF6;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     padding: 12px;
 }
 
@@ -15,7 +15,7 @@
     display: flex;
     align-items: center;
     list-style-type: none; 
-    gap: 30px;
+    gap: 16px;
     margin: 0;
 }
 

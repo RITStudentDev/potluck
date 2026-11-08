@@ -1,17 +1,17 @@
 import "../css/Navbar.css"
+import TopBar from '../components/TopBar';
 import { useNavigate } from "react-router-dom";
 
-export default function Navbar() {
+export default function Navbar({searchQuery, setSearchQuery}) {
     const navigate = useNavigate();
 
     return (
         <div className="nav">
             <button onClick={() => navigate('/')}>🏠</button>
-            <ul>
-                <li><button onClick={() => navigate('/cuisine/chinese')}>Chinese</button></li>
-                <li><button onClick={() => navigate('/cuisine/indian')}>Indian</button></li>
-                <li><button onClick={() => navigate('/cuisine/mexican')}>Mexican</button></li>
-            </ul>
+             <TopBar
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+            />
             <div className="profile-picture">
                 👨🏻‍💼
             </div>
