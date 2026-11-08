@@ -2,6 +2,7 @@ import '../css/RecipePage.css';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import LangSelect, { getInitialLanguage } from '../components/LangSelect';
+import { supabase } from '../util/supabaseConn';
 
 export default function RecipePage() {
     const [viewerLang, setViewerLang] = useState(getInitialLanguage);
@@ -14,24 +15,36 @@ export default function RecipePage() {
     const [isSaved, setIsSaved] = useState(false);
 
     useEffect(() => {
+        const controller = new AbortController();
+        setRecipe(null);
         setLoading(true);
 
         async function loadPost() {
-            const res = await fetch(`/api/post/${postId}`);
-            if (res.ok) setRecipe(await res.json());
-            setLoading(false);
+            try {
+                const res = await fetch(`/api/post/${postId}`, { signal: controller.signal });
+                if (res.ok) setRecipe(await res.json());
+            } catch (error) {
+                if (error.name !== 'AbortError') setRecipe(null);
+            } finally {
+                if (!controller.signal.aborted) setLoading(false);
+            }
         }
         loadPost();
+        return () => controller.abort();
     }, [postId]);
 
     useEffect(() => {
+        const controller = new AbortController();
         setTranslation(null);
         setShowOriginal(false);
 
-        fetch(`/api/post/${postId}/translation?lang=${viewerLang}`)
+        fetch(`/api/post/${postId}/translation?lang=${encodeURIComponent(viewerLang)}`, { signal: controller.signal })
             .then((res) => (res.ok ? res.json() : null))
-            .then((data) => data && setTranslation(data))
+            .then((data) => {
+                if (data && !controller.signal.aborted) setTranslation(data);
+            })
             .catch(() => {});
+        return () => controller.abort();
     }, [postId, viewerLang]);
 
     let bookmarkIcon;
@@ -49,6 +62,11 @@ export default function RecipePage() {
     const showTranslated = translation && !showOriginal;
     const description = showTranslated ? translation.description : recipe.description;
     const instructions = showTranslated ? translation.instructions : recipe.instructions;
+    const imageUrl = recipe.image_url && (
+        /^https?:\/\//i.test(recipe.image_url)
+            ? recipe.image_url
+            : supabase.storage.from('food-images').getPublicUrl(recipe.image_url).data.publicUrl
+    );
 
     return (
         <div className="recipe-container">
@@ -64,7 +82,7 @@ export default function RecipePage() {
                     
             </div>
             <div className="postImage">
-                <img src={recipe.image_url} alt="MainPhoto" />
+                {imageUrl && <img src={imageUrl} alt="MainPhoto" />}
                
             </div>
 
