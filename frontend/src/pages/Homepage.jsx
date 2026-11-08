@@ -63,17 +63,17 @@ export default function Homepage() {
 
                 <aside className="side-nav">
                     Filter By Country!
-                    <button className="country-filter" type="button">
+                    <button className="country-filter" type="button" href="/cuisine/mexican">
                         <span className="icon">🌮</span>
                         <span>Mexico</span>
                     </button>
 
-                    <button className="country-filter" type="button">
+                    <button className="country-filter" type="button" href="/cuisine/chinese">
                         <span className="icon">🏮</span>
                         <span>China</span>
                     </button>
 
-                    <button className="country-filter" type="button">
+                    <button className="country-filter" type="button" href="/cuisine/indian">
                         <span className="icon">🪔</span>
                         <span>India</span>
                     </button>
