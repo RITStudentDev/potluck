@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom';
 import LangSelect, { getInitialLanguage } from '../components/LangSelect';
 import { supabase } from '../util/supabaseConn';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function RecipePage() {
     const [viewerLang, setViewerLang] = useState(getInitialLanguage);
 
@@ -21,7 +23,7 @@ export default function RecipePage() {
 
         async function loadPost() {
             try {
-                const res = await fetch(`/api/post/${postId}`, { signal: controller.signal });
+                const res = await fetch(`${API_URL}/post/${postId}`, { signal: controller.signal });
                 if (res.ok) setRecipe(await res.json());
             } catch (error) {
                 if (error.name !== 'AbortError') setRecipe(null);
@@ -38,7 +40,7 @@ export default function RecipePage() {
         setTranslation(null);
         setShowOriginal(false);
 
-        fetch(`/api/post/${postId}/translation?lang=${encodeURIComponent(viewerLang)}`, { signal: controller.signal })
+        fetch(`${API_URL}/post/${postId}/translation?lang=${encodeURIComponent(viewerLang)}`, { signal: controller.signal })
             .then((res) => (res.ok ? res.json() : null))
             .then((data) => {
                 if (data && !controller.signal.aborted) setTranslation(data);

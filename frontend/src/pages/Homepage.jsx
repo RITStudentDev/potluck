@@ -6,8 +6,6 @@ import { supabase } from '../util/supabaseConn';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-console.log(`ENV: ${API_URL}`);
-
 export default function Homepage() {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
