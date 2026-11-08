@@ -77,6 +77,13 @@ def get_post_translation(post_id: int, lang: str = Query(..., min_length=2, max_
 def get_all_posts(limit: int = Query(50, ge=1, lt=100), offset: int = Query(0, ge=0)):
     return queries.get_all_posts(limit, offset)
 
+@router.get("/posts/cuisine/{cuisine}")
+def get_posts_by_cuisine(cuisine: str, limit: int = Query(30, ge=1, le=100), offset: int = Query(0, ge=0),):
+    keywords = queries.CUISINE_KEYWORDS.get(cuisine.lower())
+    if keywords is None:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "Unknown cuisine")
+    return queries.get_posts_by_keywords(keywords, limit, offset)
+
 @router.get("/post/card")
 async def get_post():
     post = queries.get_post_card()
