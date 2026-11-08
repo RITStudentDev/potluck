@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import LangSelect, { getInitialLanguage } from '../components/LangSelect';
 
 export default function RecipePage() {
-    const { postId } = useParams();
     const [viewerLang, setViewerLang] = useState(getInitialLanguage);
 
     const [recipe, setRecipe] = useState(null);
@@ -34,9 +33,7 @@ export default function RecipePage() {
             .then((data) => data && setTranslation(data))
             .catch(() => {});
     }, [postId, viewerLang]);
-        loadPosts();
-    }, []);
-    
+
     let bookmarkIcon;
 
     if (isSaved === true) {
@@ -73,12 +70,17 @@ export default function RecipePage() {
 
             <div className="informationLine">
                 <span id="userNameID">
-                    Username: @jakebolton
+                    Username: @{recipe.username}
                 </span>
-                <button className="like-button" type="button">
-                    <span>🧡 300</span>
-                    {/* <span>300</span> */}
-                </button>
+                <div className='likes'>
+                    <p>{recipe.like_num}</p>
+                    <label className="heart-btn">
+                    <input type="checkbox" />
+                    <svg className="heart-icon" viewBox="0 0 24 24" xmlns="http://w3.org">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                    </label>
+                </div>
             </div>
 
             <div className="descriptionOfPost">
@@ -131,12 +133,7 @@ export default function RecipePage() {
                 
                 <section className="instructions">
                     <h2>Recipe Instructions: </h2>
-                    <ol>
-                        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
-                        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
-                        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
-
-                    </ol>
+                    <p>{instructions}</p>
                 </section>
             </div>
         </div>
