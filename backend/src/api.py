@@ -58,20 +58,21 @@ def get_post_translation(post_id: int, lang: str = Query(..., min_length=2, max_
     lang = lang.lower()
     source = post["owner_language"]
     if source == lang:
-        return {"language": lang, "description": post["description"], "translated": False}
+        return {"language": lang, "description": post["description"], "instructions": post["instructions"], "translated": False}
 
     cached = queries.get_translation(post_id, lang)
     if cached is not None:
-        return {"language": lang, "description": cached, "translated": True}
+        return {"language": lang, "description": cached, "instructions": cached, "translated": True}
     
 
     try:
-        translated = translate_text(post["description"], source, lang)
+        translated_dec = translate_text(post["description"], source, lang)
+        translated_ins = translate_text(post["instructions"], source, lang)
     except Exception:
         raise HTTPException(status.HTTP_502_BAD_GATEWAY, "Translation failed")
 
-    queries.save_translation(post_id, lang, translated)
-    return {"language": lang, "description": translated, "translated": True}
+    queries.save_translation(post_id, lang, translated_dec, translated_ins)
+    return {"language": lang, "description": translated_dec, "instructions": translated_ins, "translated": True}
 
 @router.get("/posts/")
 def get_all_posts(limit: int = Query(50, ge=1, lt=100), offset: int = Query(0, ge=0)):

@@ -24,6 +24,7 @@ class Post(Base):
     owner: Mapped[int] = mapped_column(ForeignKey('user.id'))
     like_num: Mapped[int] = mapped_column(default=0)
     description: Mapped[str] = mapped_column(Text)
+    instructions: Mapped[str] = mapped_column(Text)
     post_time: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), 
         server_default=func.now()
@@ -44,3 +45,4 @@ class PostTranslation(Base):
     post_id: Mapped[int] = mapped_column(ForeignKey('post.id'))
     language: Mapped[str] = mapped_column(String(10))
     description: Mapped[str] = mapped_column(Text)
+    instructions: Mapped[str] = mapped_column(Text)

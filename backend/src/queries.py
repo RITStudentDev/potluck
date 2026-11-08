@@ -30,6 +30,7 @@ def create_post(owner: int, url: str, description: str):
                 Post.owner,
                 Post.like_num,
                 Post.description,
+                Post.instructions,
                 Post.post_time,
                 PostImages.image_url
             ).join(PostImages, PostImages.post_id == Post.id)
@@ -47,6 +48,7 @@ def get_post_by_id(post_id: int):
                 User.language.label("owner_language"),
                 Post.like_num,
                 Post.description,
+                Post.instructions,
                 Post.post_time,
                 PostImages.image_url,
             )
@@ -65,6 +67,7 @@ def get_post():
                 Post.like_num,
                 Post.owner,
                 Post.description,
+                Post.instructions,
                 Post.post_time,
                 PostImages.image_url
             ).join(PostImages, PostImages.post_id == Post.id).join(User, User.id == Post.owner).order_by(Post.like_num)
@@ -145,18 +148,18 @@ def like_post(post_id: int):
 def get_translation(post_id: int, language: str):
     with Session(engine) as session:
         return session.execute(
-            select(PostTranslation.description).where(
+            select(PostTranslation.description, PostTranslation.description).where(
                 PostTranslation.post_id == post_id,
                 PostTranslation.language == language,
             )
         ).scalar_one_or_none()
 
-def save_translation(post_id: int, language: str, description: str):
+def save_translation(post_id: int, language: str, description: str, instructions: str):
     with Session(engine) as session:
         try:
             session.execute(
                 insert(PostTranslation).values(
-                    post_id=post_id, language=language, description=description
+                    post_id=post_id, language=language, description=description, instructions=instructions
                 )
             )
             session.commit()
