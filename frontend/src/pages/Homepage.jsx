@@ -11,6 +11,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 export default function Homepage() {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
+     const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
         async function loadPosts(){
@@ -22,9 +23,17 @@ export default function Homepage() {
         loadPosts();
     }, []);
 
+    // Filter posts based on username
+    const filteredPosts = posts.filter((post) =>
+        post.username.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     return (
         <div className="body">
-            <Navbar/>
+            <Navbar
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+            />
             <div className = "main-feed-container">
                 <header className = "feed-header">
                     <h1>Potluck</h1>
@@ -48,10 +57,10 @@ export default function Homepage() {
                     
                     {loading ? (
                             <p>Loading...</p>
-                        ) : posts.length === 0 ? (
+                        ) : filteredPosts.length === 0 ? (
                             <p>No posts found</p>
                         ) : (
-                            posts.map((post) => (
+                            filteredPosts.map((post) => (
                                 <PostCard
                                     username={post.username}
                                     likenum={post.like_num}

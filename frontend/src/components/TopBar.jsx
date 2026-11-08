@@ -1,7 +1,7 @@
 
 import '../css/TopBar.css';
 
-function TopBar() {
+function TopBar({ searchQuery, setSearchQuery }) {
     return (
         <header className="top-bar">
             <div className="search-container">
@@ -9,6 +9,8 @@ function TopBar() {
                 <input
                     type="text"
                     placeholder="Search recipes, people, cuisines..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                 />
             </div>
 
