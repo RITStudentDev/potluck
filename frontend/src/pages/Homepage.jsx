@@ -37,11 +37,18 @@ export default function Homepage() {
                             posts.map((post) => (
                                 <PostCard
                                     username={post.username}
-                                    roomId={room.like_num}
-                                    roomName={room.image_url}
+                                    likenum={post.like_num}
+                                    url={post.image_url}
+                                    id={post.id}
                                 />
                             ))
                         )}
+                    <PostCard
+                        username={"jawn"}
+                        likenum={53}
+                        url={veggiePizza}
+                        id={"001"}
+                    />
                 </main>
 
                 <nav className="bottom-nav">
