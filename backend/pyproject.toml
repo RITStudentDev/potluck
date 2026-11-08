@@ -11,6 +11,6 @@ requires-python = ">=3.12"
 dependencies=[
     "fastapi[standard]",
     "psycopg[binary]",
-    "sqlalchemy"
-    "deep-translate"
+    "sqlalchemy",
+    "deep-translator"
 ]
