@@ -1,3 +1,6 @@
+"""
+THIS SCRIPT SEEDS THE DATABASE POST, POST_IMAGES, AND USER TABLES.
+"""
 
 from backend.src.models import Post, User
 from hashlib import sha256
