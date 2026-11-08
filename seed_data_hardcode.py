@@ -29,7 +29,7 @@ USERNAMES = (
     "cookbook",
     "foodexplorer",
     "sweettooth",
-    "spicyfood",
+    "Xx_shadow_xX",
     "hungrywolf",
     "pastalover",
     "sushifan",
