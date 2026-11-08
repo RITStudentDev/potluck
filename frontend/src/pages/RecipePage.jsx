@@ -1,10 +1,11 @@
 import '../css/RecipePage.css';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import LangSelect, { getInitialLanguage } from '../components/LangSelect';
 
 export default function RecipePage() {
     const { postId } = useParams();
-    const viewerLang = (navigator.language || 'en').slice(0, 2); // switch to the current user's language
+    const [viewerLang, setViewerLang] = useState(getInitialLanguage);
 
     const [recipe, setRecipe] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -41,6 +42,7 @@ export default function RecipePage() {
 
     return (
         <div className="recipe-container">
+            <LangSelect value={viewerLang} onChange={setViewerLang}/>
             <div className="postImage">
                 <img src={recipe.image_url} alt="MainPhoto" />
             </div>
