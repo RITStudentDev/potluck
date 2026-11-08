@@ -1,15 +1,20 @@
 import '../css/Homepage.css';
+import PostCard from '../components/PostCard';
 import veggiePizza from '../images/Veggie-Pizza-12.jpg';
-
+import quesadilla from '../images/quesadillas-2.jpg';
 import { Link } from 'react-router-dom';
+
 export default function Homepage() {
 
     return (
         <div className="body">
-            <h1 id="main-header">Project Food</h1>
             <div className = "main-feed-container">
                 <header className = "feed-header">
-
+                    <div className="profile-picture">
+                        👨🏻‍💼
+                    </div>
+                    <h1>Project Food</h1>
+                    
                 </header>
                 
                 <main className = "content">
@@ -34,16 +39,42 @@ export default function Homepage() {
                          </div>
 
                         <div className="post">
-                            Post 2
+                            <Link className="post" to="/recipe/veggie-pizza">
+                                <img src={quesadilla} alt="Quesadilla" />
+                                <div className="recipeInfo">
+                                    <h3>Recipe Title: Cheese Quesadillas</h3> 
+                                    <p>@vincent-vue</p>
+                                </div>
+                            </Link>
                             
                         </div>
 
                     </div>
+                    
+                    <PostCard
+                        username={"Xx_shadow_xX"}
+                        likenum={2}
+                        url={veggiePizza}
+                    />
+
                 </main>
 
                 <nav className="bottom-nav">
-                    Bottom Nav
+                    Filter By Country!
+                    <button className="country-filter" type="button">
+                        <span className="icon">🌮</span>
+                        <span>Mexico</span>
+                    </button>
 
+                    <button className="country-filter" type="button">
+                        <span className="icon">🏮</span>
+                        <span>China</span>
+                    </button>
+
+                    <button className="country-filter" type="button">
+                        <span className="icon">🪔</span>
+                        <span>India</span>
+                    </button>
                 </nav>
             </div>
         </div>

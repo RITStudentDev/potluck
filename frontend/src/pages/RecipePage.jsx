@@ -1,5 +1,6 @@
 import '../css/RecipePage.css';
 import veggiePizza from '../images/Veggie-Pizza-12.jpg';
+import PostCard from '../components/PostCard';
 
 export default function RecipePage() {
     return(
@@ -8,19 +9,7 @@ export default function RecipePage() {
                 <img src={veggiePizza} alt="MainPhoto" />
             </div>
 
-            <div className="informationLine">
-                <span id="userNameID">
-                    Username: @jakebolton
-                </span>
-                <button className="like-button" type="button">
-                    <span>🤍 300</span>
-                    {/* <span>300</span> */}
-                </button>
-                <button className="save-button" type="button" aria-label="Save recipe">
-                    <span>📌</span>
-                </button>
-
-            </div>
+            <PostCard></PostCard>
 
             <div className="descriptionOfPost">
                 <h1>Recipe Title</h1>

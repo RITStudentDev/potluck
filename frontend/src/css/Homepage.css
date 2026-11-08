@@ -3,9 +3,27 @@
     /* color: white; */
 }
 
-#main-header{
+
+.feed-header{
+    display:flex;
+    flex-direction: column;
+}
+
+.feed-header h1{
     text-align: center;
-    
+    color: white;
+}
+
+.profile-picture{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid white;
+    background-color: blanchedalmond;
+    align-self: flex-end;
 }
 
 body{
@@ -102,4 +120,22 @@ body{
     border: 2px solid black;
     text-align: center;
     padding: 20px;
+}
+
+.bottom-nav{
+    display:flex;
+    justify-content: space-evenly;
+    align-items:center;
+    position: fixed;
+    bottom:0;
+    left:0;
+    width: 100%;
+    z-index:2;
+    background-color: white;
+}
+
+.country-filter{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

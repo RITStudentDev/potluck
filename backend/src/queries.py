@@ -1,7 +1,7 @@
 from .database import engine
 from .models import Post, PostImages, User
 from sqlalchemy.orm import Session
-from sqlalchemy import insert, select, desc
+from sqlalchemy import insert, select, desc, update
 import hashlib
 
 """
@@ -90,3 +90,14 @@ def enter_user(username: str, password: str, language: str):
 
         return get_user(user_id)
     
+def like_post(post_id: int):
+    with Session(engine) as session:
+        stmt = (update(Post).where(Post.id == post_id).values(like_num=Post.like_num + 1))
+
+        result = session.execute(stmt)
+
+        if result.rowcount == 0:
+            return False
+
+        session.commit()
+        return True
