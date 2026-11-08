@@ -70,7 +70,7 @@ DESCRIPTIONS = (
     "Homemade Indian butter chicken served with fluffy basmati rice and garlic naan.",
     "Fresh Thai mango sticky rice drizzled with sweet coconut milk.",
     "A steaming bowl of Vietnamese pho with tender beef, rice noodles, and fresh herbs.",
-    "Traditional Ethiopian doro wat served with soft, tangy injera bread.",
+    "Indonesian golden potato fritters with spicy sauce on a white plate.",
     "Lebanese chicken shawarma wrapped in warm pita with garlic sauce and pickles.",
     "Homemade Filipino chicken adobo simmered in soy sauce, vinegar, and garlic.",
     "Spicy Nigerian jollof rice served with crispy fried plantains.",
