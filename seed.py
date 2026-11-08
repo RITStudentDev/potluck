@@ -1,5 +1,5 @@
 
-from models import Post, User
+from backend.src.models import Post, User
 from hashlib import sha256
 import random
 import os
@@ -18,7 +18,6 @@ DB_URL = (
 engine = create_engine(DB_URL)
 
 SessionLocal = sessionmaker(bind=engine)
-
 
 def seed_users():
 
