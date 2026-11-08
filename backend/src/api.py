@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Request, status, Query
 from sqlalchemy.exc import IntegrityError
 from fastapi.concurrency import run_in_threadpool
-from translate import translate_text
+from .translate import normalize_language, translate_text
 from . import queries
 
 """
@@ -42,34 +42,33 @@ async def like_post(post_id: int):
     if not success:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Post not found")
 
-@router.get("/post/")
-async def get_post():
-    post = queries.get_post()
+@router.get("/post/{post_id}")
+def get_post_by_id(post_id: int):
+    post = queries.get_post_by_id(post_id)
     if post is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Post not found")
     return post
 
 @router.get("/post/{post_id}/translation")
 def get_post_translation(post_id: int, lang: str = Query(..., min_length=2, max_length=10)):
-    post = queries.get_post_by_id(post_id, lang)
+    post = queries.get_post_by_id(post_id)
     if post is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Post not found")
 
-    lang = lang.lower()
-    source = post["owner_language"]
+    lang = normalize_language(lang)
+    source = normalize_language(post["owner_language"])
     if source == lang:
         return {"language": lang, "description": post["description"], "instructions": post["instructions"], "translated": False}
 
     cached = queries.get_translation(post_id, lang)
     if cached is not None:
-        return {"language": lang, "description": cached, "instructions": cached, "translated": True}
-    
+        return {"language": lang, "description": cached["description"], "instructions": cached["instructions"], "translated": True}
 
     try:
         translated_dec = translate_text(post["description"], source, lang)
         translated_ins = translate_text(post["instructions"], source, lang)
-    except Exception:
-        raise HTTPException(status.HTTP_502_BAD_GATEWAY, "Translation failed")
+    except Exception as exc:
+        raise HTTPException(status.HTTP_502_BAD_GATEWAY, "Translation failed") from exc
 
     queries.save_translation(post_id, lang, translated_dec, translated_ins)
     return {"language": lang, "description": translated_dec, "instructions": translated_ins, "translated": True}
@@ -94,7 +93,7 @@ async def create_user(request: Request):
 
     uname = body.get("username")
     pword = body.get("password")
-    lang = body.get("language", "English")
+    lang = body.get("language", "en")
 
     if not isinstance(uname, str) or not isinstance(pword, str) or not uname or not pword:
         raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, "Username and password are required")
