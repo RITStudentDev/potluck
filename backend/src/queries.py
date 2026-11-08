@@ -64,7 +64,7 @@ def get_post_card():
 
         return to_dict(post)
 
-def get_all_posts(limits: int = 30, offset: int = 0):
+def get_all_posts(limit: int = 30, offset: int = 0):
     with Session(engine) as session:
         records = session.execute(
             select(
@@ -72,8 +72,15 @@ def get_all_posts(limits: int = 30, offset: int = 0):
                 Post.like_num,
                 PostImages.image_url,
                 Post.id
-            ).join(PostImages, PostImages.post_id == Post.id).join(User, User.id == Post.owner).order_by(Post.like_num)
+            )
+            .select_from(Post)
+            .outerjoin(PostImages, PostImages.post_id == Post.id)
+            .outerjoin(User, User.id == Post.owner)
+            .order_by(Post.like_num.desc())
+            .limit(limit)
+            .offset(offset)
         ).all()
+
         return [dict(record._mapping) for record in records]
     
 def get_user(user_id: int):
