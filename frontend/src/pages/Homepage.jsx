@@ -24,11 +24,21 @@ export default function Homepage() {
                     <div className="profile-picture">
                         👨🏻‍💼
                     </div>
-                    <h1>Project Food</h1>
-                    
+                    <h1>Potluck</h1>
+                    <h2>"Many Cultures, One Home"</h2>
                 </header>
+                <hr />
                 
                 <main className = "content">
+                     <div id="featured-post">
+                        <img src={veggiePizza} alt="MainPhoto" />
+                        <div className="recipeInfo">
+                                    <h3>Recipe Title: Veggie Pizza</h3> 
+                                    <p>By: @jakebolton</p>
+                                    <p id="description"> A delicious recipe for making a veggie pizza</p>
+                        </div>
+                    </div>
+                    
                     {loading ? (
                             <p>Loading...</p>
                         ) : posts.length === 0 ? (
@@ -45,7 +55,7 @@ export default function Homepage() {
                         )}
                 </main>
 
-                <nav className="bottom-nav">
+                <aside className="side-nav">
                     Filter By Country!
                     <button className="country-filter" type="button">
                         <span className="icon">🌮</span>
@@ -61,8 +71,14 @@ export default function Homepage() {
                         <span className="icon">🪔</span>
                         <span>India</span>
                     </button>
-                </nav>
+                </aside>
             </div>
+
+            <footer>
+                <h3>Potluck! Many cultures, One Home</h3>
+                <h4>Share your culture amongst many others! At home, any recipe deserves to be shared.</h4>
+
+            </footer>
         </div>
         
     );
