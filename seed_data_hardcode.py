@@ -164,7 +164,7 @@ def seed_posts():
 
                 new_posts += 1
 
-            image_url = f"posts/{i + 1}"
+            image_url = f"posts/{i + 1}.jpg"
 
             existing_image = db.scalar(
                 select(PostImages.id)
