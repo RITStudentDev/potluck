@@ -39,6 +39,7 @@ export default function Homepage() {
                                     username={post.username}
                                     likenum={post.like_num}
                                     url={post.image_url}
+                                    id={post.id}
                                 />
                             ))
                         )}
