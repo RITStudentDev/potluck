@@ -222,3 +222,6 @@ __marimo__/
 
 # Local Dev Script
 res-dock
+
+# MacOS
+.DS_Store

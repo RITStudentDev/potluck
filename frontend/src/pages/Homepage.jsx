@@ -2,6 +2,7 @@ import '../css/Homepage.css';
 import PostCard from '../components/PostCard';
 import veggiePizza from '../images/Veggie-Pizza-12.jpg';
 import { useState, useEffect } from 'react';
+import { supabase } from '../util/supabaseConn';
 
 export default function Homepage() {
     const [posts, setPosts] = useState([]);
@@ -48,7 +49,7 @@ export default function Homepage() {
                                 <PostCard
                                     username={post.username}
                                     likenum={post.like_num}
-                                    url={post.image_url}
+                                    url={supabase.storage.from("food-images").getPublicUrl(post.image_url).data.publicUrl}
                                     id={post.id}
                                 />
                             ))
