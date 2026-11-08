@@ -3,11 +3,14 @@ This script seeds hard coded data that is defined here.
 """
 
 import os
+from dotenv import load_dotenv
 import random
 from hashlib import sha256
 from backend.src.models import Post, User
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import sessionmaker
+
+load_dotenv()
 
 user = os.getenv("POSTGRES_USER")
 passwd = os.getenv("POSTGRES_PASSWORD")
