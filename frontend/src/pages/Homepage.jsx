@@ -30,9 +30,10 @@ export default function Homepage() {
                     <h2>"Many Cultures, One Home"</h2>
                 </header>
                 <hr />
-                
+                <h1 id="featured-recipe-text">Featured Recipe Of The Day!</h1>
+
                 <main className = "content">
-                     <div id="featured-post">
+                    <div id="featured-post">
                         <img src={veggiePizza} alt="MainPhoto" />
                         <div className="recipeInfo">
                                     <h3>Recipe Title: Veggie Pizza</h3> 
@@ -40,6 +41,9 @@ export default function Homepage() {
                                     <p id="description"> A delicious recipe for making a veggie pizza</p>
                         </div>
                     </div>
+
+                    <hr className="feed-divider" />
+
                     
                     {loading ? (
                             <p>Loading...</p>

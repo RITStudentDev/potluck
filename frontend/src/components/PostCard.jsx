@@ -34,9 +34,9 @@ function PostCard({ username, likenum, url, id }) {
         <div className="post-container">
             <img src={url} alt="food" onClick={doReroute}></img>
             <div className="post-data">
-                <p>{username}</p>
-                <div className="likes">
-                    <p>{likes}</p>
+                <p id="username">{username}</p>
+                <div className='likes'>
+                    <p>{likenum}</p>
                     <label className="heart-btn">
                         <input
                             type="checkbox"
