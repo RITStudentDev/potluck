@@ -44,12 +44,7 @@ USERNAMES = (
 )
 
 LANGUAGES = (
-    "English",
-    "Spanish",
-    "French",
-    "German",
-    "Japanese",
-    "Chinese",
+    "en",
 )
 
 DESCRIPTIONS = (
@@ -396,27 +391,36 @@ def seed_users():
     ).hexdigest()
 
     with SessionLocal.begin() as db:
-        existing = set(
-            db.execute(select(User.username)).scalars().all()
-        )
+        existing = {
+            user.username: user
+            for user in db.execute(
+                select(User).where(User.username.in_(USERNAMES))
+            ).scalars()
+        }
 
         users = []
+        updated_users = 0
 
         for i, username in enumerate(USERNAMES):
+            language = LANGUAGES[i % len(LANGUAGES)]
             if username in existing:
+                if existing[username].language != language:
+                    existing[username].language = language
+                    updated_users += 1
                 continue
 
             users.append(
                 User(
                     username=username,
                     password=password_hash,
-                    language=LANGUAGES[i % len(LANGUAGES)]
+                    language=language
                 )
             )
 
         db.add_all(users)
 
     print(f"Successfully seeded {len(users)} new users!")
+    print(f"Successfully updated {updated_users} existing user languages!")
 
 
 def seed_posts():
