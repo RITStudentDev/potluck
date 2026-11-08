@@ -1,9 +1,14 @@
 import '../css/PostCard.css'
+import { useNavigate } from 'react-router-dom';
 
-function PostCard({username, likenum, url}) {
-    
+function PostCard({username, likenum, url, id}) {
+    const navigate = useNavigate();
+    const doReroute = async () => {
+        navigate(`/recipe/${id}`);
+    }
+
     return (
-        <div className="post-container">
+        <div className="post-container" onClick={doReroute}>
             <img src={url} alt="food"></img>
             <div className="post-data">
                 <p>{username}</p>
