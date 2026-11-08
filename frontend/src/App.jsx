@@ -11,7 +11,7 @@ function App() {
         <Router>
              <Routes>
                 <Route path="/" element={<Homepage />} />
-                <Route path="/recipe/veggie-pizza" element={<RecipePage />} />
+                <Route path="/recipe/:postId" element={<RecipePage />} />
                 <Route path="*" element={<Homepage />} />
             </Routes>
         </Router>

@@ -1,10 +1,21 @@
 import '../css/Homepage.css';
 import PostCard from '../components/PostCard';
 import veggiePizza from '../images/Veggie-Pizza-12.jpg';
-import quesadilla from '../images/quesadillas-2.jpg';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 export default function Homepage() {
+    const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function loadPosts(){
+            const res = await fetch("/api/posts/?limit=50&offet=0");
+            const feed = await res.json();
+            setPosts(feed);
+            setLoading(false);
+        }
+        loadPosts();
+    }, []);
 
     return (
         <div className="body">
@@ -19,7 +30,7 @@ export default function Homepage() {
                 <hr />
                 
                 <main className = "content">
-                    <div id="featured-post">
+                     <div id="featured-post">
                         <img src={veggiePizza} alt="MainPhoto" />
                         <div className="recipeInfo">
                                     <h3>Recipe Title: Veggie Pizza</h3> 
@@ -27,43 +38,21 @@ export default function Homepage() {
                                     <p id="description"> A delicious recipe for making a veggie pizza</p>
                         </div>
                     </div>
-
-                    {/* <div className="post-grid">
-                        <div className="post">
-                            <Link className="post" to="/recipe/veggie-pizza">
-                                <img src={veggiePizza} alt="Pizza" />
-                                <div className="recipeInfo">
-                                    <h3>Recipe Title: Veggie Pizza</h3> 
-                                    <p>@jakebolton</p>
-                                </div>
-                            </Link>
-                         </div>
-
-                        <div className="post">
-                            <Link className="post" to="/recipe/veggie-pizza">
-                                <img src={quesadilla} alt="Quesadilla" />
-                                <div className="recipeInfo">
-                                    <h3>Recipe Title: Cheese Quesadillas</h3> 
-                                    <p>@vincent-vue</p>
-                                </div>
-                            </Link>
-                            
-                        </div>
-
-                    </div> */}
                     
-                    <PostCard
-                        username={"@Xx_shadow_xX"}
-                        likenum={2}
-                        url={veggiePizza}
-                    />
-
-                    <PostCard
-                        username={"@jake-bolton"}
-                        likenum={2}
-                        url={quesadilla}
-                    />
-
+                    {loading ? (
+                            <p>Loading...</p>
+                        ) : posts.length === 0 ? (
+                            <p>No posts found</p>
+                        ) : (
+                            posts.map((post) => (
+                                <PostCard
+                                    username={post.username}
+                                    likenum={post.like_num}
+                                    url={post.image_url}
+                                    id={post.id}
+                                />
+                            ))
+                        )}
                 </main>
 
                 <aside className="side-nav">
