@@ -2,35 +2,43 @@
 This script seeds hard coded data that is defined here.
 """
 
-from backend.src.models import Post, User
-from hashlib import sha256
-import random
 import os
+import random
+from hashlib import sha256
+from backend.src.models import Post, User
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import sessionmaker
-from dotenv import load_dotenv
 
-load_dotenv()
+user = os.getenv("POSTGRES_USER")
+passwd = os.getenv("POSTGRES_PASSWORD")
+db_name = os.getenv("POSTGRES_DB")
 
-DB_URL = (
-    f"postgresql+psycopg://{os.getenv('POSTGRES_USER')}:"
-    f"{os.getenv('POSTGRES_PASSWORD')}@localhost:5432/"
-    f"{os.getenv('POSTGRES_DB')}"
-)
-
-engine = create_engine(DB_URL)
-
+POSTGRES_URL = f"postgresql+psycopg://{user}:{passwd}@db:5432/{db_name}"
+engine = create_engine(POSTGRES_URL)
 SessionLocal = sessionmaker(bind=engine)
 
-def seed_users():
+USERNAMES = (
+    "foodlover", "chefmaster", "pizza_fan", "burgerking",
+    "tastytreats", "cookbook", "foodexplorer", "sweettooth",
+    "spicyfood", "hungrywolf", "pastalover", "sushifan",
+    "baker123", "foodcritic", "grillmaster", "veganlife",
+    "snacktime", "coffeeaddict", "dessertking", "foodie101"
+)
 
-    usernames = [
-        "foodlover", "chefmaster", "pizza_fan", "burgerking",
-        "tastytreats", "cookbook", "foodexplorer", "sweettooth",
-        "spicyfood", "hungrywolf", "pastalover", "sushifan",
-        "baker123", "foodcritic", "grillmaster", "veganlife",
-        "snacktime", "coffeeaddict", "dessertking", "foodie101"
-    ]
+DESCRIPTIONS = (
+    "Just enjoying the weather today!",
+    "Check out this amazing photo.",
+    "Anyone have recommendations for good restaurants?",
+    "Had a great time with friends today.",
+    "Working on a new project!",
+    "What's everyone's favorite movie?",
+    "Beautiful sunset tonight.",
+    "Finally finished my homework!",
+    "Does anyone have any gaming recommendations?",
+    "Hope everyone is having a great day!"
+)
+
+def seed_users():
 
     languages = [
         "English", "Spanish", "French",
@@ -42,7 +50,7 @@ def seed_users():
 
             users = []
 
-            for username in usernames:
+            for username in USERNAMES:
                 user = User(
                     username=username,
                     password=sha256(
@@ -64,19 +72,6 @@ def seed_users():
 
 def seed_posts():
 
-    descriptions = [
-        "Just enjoying the weather today!",
-        "Check out this amazing photo.",
-        "Anyone have recommendations for good restaurants?",
-        "Had a great time with friends today.",
-        "Working on a new project!",
-        "What's everyone's favorite movie?",
-        "Beautiful sunset tonight.",
-        "Finally finished my homework!",
-        "Does anyone have any gaming recommendations?",
-        "Hope everyone is having a great day!"
-    ]
-
     try:
         with SessionLocal() as db:
 
@@ -92,7 +87,7 @@ def seed_posts():
                 post = Post(
                     owner=random.choice(users),
                     like_num=random.randint(0, 100),
-                    description=random.choice(descriptions)
+                    description=random.choice(DESCRIPTIONS)
                 )
 
                 posts.append(post)
@@ -105,10 +100,8 @@ def seed_posts():
     except Exception as e:
         print(f"Error seeding posts: {e}")
 
-
 if __name__ == "__main__":
     seed_users()
     seed_posts()
 
     engine.dispose()
-
