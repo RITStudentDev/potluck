@@ -50,13 +50,13 @@
 
 .content{
     display:grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 100px;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
 }
 
 #featured-post{
     grid-column: 1/-1;
-    border: 2px solid black;
+    border: 2px solid #c9770c;
     text-align: center;
     border-radius: 12px;
     overflow: hidden;
