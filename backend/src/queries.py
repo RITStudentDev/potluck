@@ -37,6 +37,27 @@ def create_post(owner: int, url: str, description: str):
         ).first()
         return to_dict(record)
 
+def get_post_by_id(post_id: int):
+    with Session(engine) as session:
+        record = session.execute(
+            select(
+                Post.id,
+                Post.owner,
+                User.username,
+                User.language.label("owner_language"),
+                Post.like_num,
+                Post.description,
+                Post.post_time,
+                PostImages.image_url,
+            )
+            .select_from(Post)
+            .join(User, User.id == Post.owner)
+            .outerjoin(PostImages, PostImages.post_id == Post.id)
+            .where(Post.id == post_id)
+        ).first()
+
+        return to_dict(record)
+
 def get_post():
     with Session(engine) as session:
         post = session.execute(
