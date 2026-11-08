@@ -1,5 +1,5 @@
 from .database import engine
-from .models import Post, PostImages, User
+from .models import Post, PostImages, User, PostTranslation
 from sqlalchemy.orm import Session
 from sqlalchemy import insert, select, desc, update
 import hashlib
@@ -30,11 +30,34 @@ def create_post(owner: int, url: str, description: str):
                 Post.owner,
                 Post.like_num,
                 Post.description,
+                Post.instructions,
                 Post.post_time,
                 PostImages.image_url
             ).join(PostImages, PostImages.post_id == Post.id)
             .where(Post.id == post_id)
         ).first()
+        return to_dict(record)
+
+def get_post_by_id(post_id: int):
+    with Session(engine) as session:
+        record = session.execute(
+            select(
+                Post.id,
+                Post.owner,
+                User.username,
+                User.language.label("owner_language"),
+                Post.like_num,
+                Post.description,
+                Post.instructions,
+                Post.post_time,
+                PostImages.image_url,
+            )
+            .select_from(Post)
+            .join(User, User.id == Post.owner)
+            .outerjoin(PostImages, PostImages.post_id == Post.id)
+            .where(Post.id == post_id)
+        ).first()
+
         return to_dict(record)
 
 def get_post():
@@ -44,6 +67,7 @@ def get_post():
                 Post.like_num,
                 Post.owner,
                 Post.description,
+                Post.instructions,
                 Post.post_time,
                 PostImages.image_url
             ).join(PostImages, PostImages.post_id == Post.id).join(User, User.id == Post.owner).order_by(Post.like_num)
@@ -120,3 +144,24 @@ def like_post(post_id: int):
 
         session.commit()
         return True
+
+def get_translation(post_id: int, language: str):
+    with Session(engine) as session:
+        return session.execute(
+            select(PostTranslation.description, PostTranslation.description).where(
+                PostTranslation.post_id == post_id,
+                PostTranslation.language == language,
+            )
+        ).scalar_one_or_none()
+
+def save_translation(post_id: int, language: str, description: str, instructions: str):
+    with Session(engine) as session:
+        try:
+            session.execute(
+                insert(PostTranslation).values(
+                    post_id=post_id, language=language, description=description, instructions=instructions
+                )
+            )
+            session.commit()
+        except:
+            session.rollback()

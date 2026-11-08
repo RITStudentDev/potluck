@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException, Request, status, Query
 from sqlalchemy.exc import IntegrityError
 from fastapi.concurrency import run_in_threadpool
+from translate import translate_text
 from . import queries
 
 """
@@ -47,6 +48,31 @@ async def get_post():
     if post is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Post not found")
     return post
+
+@router.get("/post/{post_id}/translation")
+def get_post_translation(post_id: int, lang: str = Query(..., min_length=2, max_length=10)):
+    post = queries.get_post_by_id(post_id, lang)
+    if post is None:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "Post not found")
+
+    lang = lang.lower()
+    source = post["owner_language"]
+    if source == lang:
+        return {"language": lang, "description": post["description"], "instructions": post["instructions"], "translated": False}
+
+    cached = queries.get_translation(post_id, lang)
+    if cached is not None:
+        return {"language": lang, "description": cached, "instructions": cached, "translated": True}
+    
+
+    try:
+        translated_dec = translate_text(post["description"], source, lang)
+        translated_ins = translate_text(post["instructions"], source, lang)
+    except Exception:
+        raise HTTPException(status.HTTP_502_BAD_GATEWAY, "Translation failed")
+
+    queries.save_translation(post_id, lang, translated_dec, translated_ins)
+    return {"language": lang, "description": translated_dec, "instructions": translated_ins, "translated": True}
 
 @router.get("/posts/")
 def get_all_posts(limit: int = Query(50, ge=1, lt=100), offset: int = Query(0, ge=0)):

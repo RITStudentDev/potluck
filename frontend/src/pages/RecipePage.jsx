@@ -1,23 +1,39 @@
 import '../css/RecipePage.css';
-import veggiePizza from '../images/Veggie-Pizza-12.jpg';
-import PostCard from '../components/PostCard';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import LangSelect, { getInitialLanguage } from '../components/LangSelect';
 
 export default function RecipePage() {
+    const { postId } = useParams();
+    const [viewerLang, setViewerLang] = useState(getInitialLanguage);
 
-    const [recipe, setRecipe] = useState(true);
+    const [recipe, setRecipe] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [translation, setTranslation] = useState(null);
+    const [showOriginal, setShowOriginal] = useState(false);
     const { postId } = useParams();
     const [isSaved, setIsSaved] = useState(false);
 
     useEffect(() => {
-        async function loadPosts(){
+        setLoading(true);
+
+        async function loadPost() {
             const res = await fetch(`/api/post/${postId}`);
-            const restaurant = await res.json();
-            setRecipe(restaurant);
+            if (res.ok) setRecipe(await res.json());
             setLoading(false);
         }
+        loadPost();
+    }, [postId]);
+
+    useEffect(() => {
+        setTranslation(null);
+        setShowOriginal(false);
+
+        fetch(`/api/post/${postId}/translation?lang=${viewerLang}`)
+            .then((res) => (res.ok ? res.json() : null))
+            .then((data) => data && setTranslation(data))
+            .catch(() => {});
+    }, [postId, viewerLang]);
         loadPosts();
     }, []);
     
@@ -30,8 +46,16 @@ export default function RecipePage() {
         bookmarkIcon = "⛉";
     }
 
-    return(
+    if (loading) return <p>Loading...</p>;
+    if (!recipe) return <p>Post not found.</p>;
+
+    const showTranslated = translation && !showOriginal;
+    const description = showTranslated ? translation.description : recipe.description;
+    const instructions = showTranslated ? translation.instructions : recipe.instructions;
+
+    return (
         <div className="recipe-container">
+            <LangSelect value={viewerLang} onChange={setViewerLang}/>
              <div id="save">
                 <button
                     className="save-button"
@@ -58,9 +82,19 @@ export default function RecipePage() {
             </div>
 
             <div className="descriptionOfPost">
-                <p>{recipe.description}</p>
+                <p>{description}</p>
+
                 <section className="recipeDetails">
                     <h2>Recipe Details</h2>
+
+                    <h3>Instructions</h3>
+                    <p style={{ whiteSpace: 'pre-line' }}>{instructions}</p>
+
+                    {translation?.translated && (
+                        <button onClick={() => setShowOriginal((v) => !v)}>
+                            {showOriginal ? 'Show translation' : 'Show original'}
+                        </button>
+                    )}
                     <div className ="detailsLayout">
                         <div className = "detailLayoutItem">
                             <span>Preparation Time</span>

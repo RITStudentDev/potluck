@@ -12,4 +12,5 @@ dependencies=[
     "fastapi[standard]",
     "psycopg[binary]",
     "sqlalchemy"
+    "deep-translate"
 ]
