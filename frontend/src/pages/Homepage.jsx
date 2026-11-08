@@ -43,12 +43,6 @@ export default function Homepage() {
                                 />
                             ))
                         )}
-                    <PostCard
-                        username={"jawn"}
-                        likenum={53}
-                        url={veggiePizza}
-                        id={"001"}
-                    />
                 </main>
 
                 <nav className="bottom-nav">
