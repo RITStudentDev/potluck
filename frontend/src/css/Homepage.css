@@ -10,8 +10,15 @@
 }
 
 .feed-header h1{
-    text-align: center;
-    color: white;
+    /* text-align: center; */
+    font-size:100px;
+    margin-bottom: 0.25rem;
+    /* color: white; */
+}
+
+.feed-header h2{
+    /* text-align: center; */
+    margin-bottom: 25px;
 }
 
 .profile-picture{
@@ -26,25 +33,26 @@
     align-self: flex-end;
 }
 
-body{
+/* body{
     background-color: deeppink;
     margin: 0;
+} */
+.body {
+    --sidebar-width: clamp(150px, 16vw, 210px);
+    padding-left: var(--sidebar-width);
 }
 
 .main-feed-container{
     width: 95%;
     max-width: 900px;
     margin: auto;
-}
-
-.feed-header{
-    text-align: center;
+    margin-bottom: 20px;
 }
 
 .content{
     display:grid;
     grid-template-columns: 1fr 1fr;
-    gap: 15px;
+    gap: 100px;
 }
 
 #featured-post{
@@ -65,7 +73,7 @@ body{
 #description{
     font-size: 22px;
     font-weight: bold;
-    color: purple;
+    /* color: purple; */
     margin: 10px;
 }
 
@@ -88,7 +96,7 @@ body{
 .recipeInfo h3{
     font-size: 22px;
     font-weight: bold;
-    color: darkblue;
+    /* color: darkblue; */
     margin: 10px;
 }
 
@@ -105,7 +113,7 @@ body{
     background-color: white;
     border-radius: 12px;
     overflow: hidden;
-    color: darkblue;
+    /* color: darkblue; */
 }
 
 .post img{
@@ -116,26 +124,39 @@ body{
     object-fit: cover;
 }
 
-.bottom-nav{
+/* .bottom-nav{
     border: 2px solid black;
     text-align: center;
     padding: 20px;
-}
+} */
 
-.bottom-nav{
+.side-nav{
     display:flex;
-    justify-content: space-evenly;
-    align-items:center;
+    flex-direction: column;
+    /* justify-content: space-evenly; */
+    align-items:stretch;
+    gap:20px;
     position: fixed;
-    bottom:0;
     left:0;
-    width: 100%;
+    top:0;
+    width: var(--sidebar-width);
+    padding: clamp(10px,1.5vw, 18px);
+    height: 100vh;
     z-index:2;
-    background-color: white;
+    background-color: #EEE6D8;
 }
 
-.country-filter{
+.country-filter {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    width: 100%;
+}
+
+footer{
+    text-align: center;
+    border: 2px solid brown;
+    background-color: rgba(200, 140, 118, 0.22);
 }

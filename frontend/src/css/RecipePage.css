@@ -1,47 +1,67 @@
 .recipe-container{
     width: 96%;
     max-width: 1200px;
-    margin:auto;
+    margin-top: 40px;
+    margin-bottom: 50px;
+    margin-left:25px;
+    margin-right: 25px;
+   
 }
 
 .informationLine{
     display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-columns: 1fr 1fr;
     align-items: center;
     padding: 15px 20px;
     border: 1px solid whitesmoke;
-    background-color: gray;
+    background-color: #FFFCF6;
+    border-radius: 12px;
     margin-top: 15px;
 }
 
 #userNameID{
     justify-self: start;
-    color: white;
-    font-size: 30px;
+    color: #302b27;
+    font-size: 18px;
 }
 
 .like-button{
-    justify-self: center;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 20px;
+    justify-self: right;
+    /* display: flex; */
+    /* align-items: center; */
+    /* gap: 10px; */
+    /* margin: 20px; */
     cursor: pointer;
     font-size: 20px;
+    /* background-color: #c65a3a; */
+    background: transparent;
+    box-shadow: none; 
+    border: none;
+    /* color: white; */
 }
 
 .save-button{
+    display: flex;
+    position: absolute;
     justify-self: end;
+    align-items: end;
     cursor:pointer;
-    font-size: 40px;
+    font-size: 50px;
     margin: 20px;
+    /* background-color: #302b27; */
+    /* background: transparent; */
+    box-shadow: none; 
+    border: none;
+    border-radius: 12px;
+    z-index:2;
 }
 
 .postImage{
-    border: 2px solid black;
+    border: 2px solid beige;
     text-align: center;
     border-radius: 12px;
     overflow: hidden;
+    background-color: ivory;
 }
 
 .postImage img{
@@ -49,58 +69,75 @@
     width: 100%;
     aspect-ratio: 16/9;
     object-fit: cover;
+    background-color: ivory;
 }
 
-.descriptionOfPost{
-    border: 1px solid whitesmoke;
-    color: white;
-    padding: 20px;
-    background-color: purple;
-    border-radius: 12px;
-    margin-top: 15px;
+.descriptionOfPost {
+    border: 1px solid #E5D9C9;
+    background-color: #FFFCF6;
+    color: #302B27;
+    padding: 32px;
+    border-radius: 16px;
+    margin-top: 20px;
 }
 
-.descriptionOfPost h1{
+.descriptionOfPost h1 {
     font-size: 35px;
+    color: #302B27;
     margin: 0 0 15px;
 }
 
-.descriptionOfPost p{
+.descriptionOfPost p {
     font-size: 17px;
-    line-height: 1.5;
+    color: #302B27;
+    line-height: 1.6;
     margin: 0;
 }
 
-.recipeDetails{
-    margin-top:2%;
-    padding-top:20px;
-    border-top: 1px solid rgba(255,233,255, 0.35);
+.recipeDetails {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #E5D9C9;
 }
 
-.recipeDetails h2{
-    font-size: 21px;
+.recipeDetails h2 {
+    font-size: 24px;
+    color: #302B27;
     margin: 0 0 15px;
 }
 
-.detailsLayout{
+.detailsLayout {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 15px;
+    margin-bottom : 20px;
 }
+/* 
+.detailsLayout hr{
+    background-color: #302B27;
+    border: none;
+    height: 2px;
+} */
 
-.detailLayoutItem{
-    background-color: grey;
-    border: 1px solid whitesmoke;
-    border-radius: 6px;
+.detailLayoutItem {
+    background-color: #F5EFE3;
+    border: 1px solid #E5D9C9;
+    border-radius: 12px;
     padding: 15px;
 }
 
-.detailLayoutItem span{
-    display:block;
+.detailLayoutItem span {
+    display: block;
     font-size: 13px;
+    color: #756C62;
     margin-bottom: 6px;
 }
 
-.detailLayoutItem strong{
+.detailLayoutItem strong {
     font-size: 18px;
+    color: #302B27;
+}
+
+.instructions li{
+    margin-top: 30px;
 }
