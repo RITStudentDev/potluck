@@ -8,8 +8,8 @@ function PostCard({username, likenum, url, id}) {
     }
 
     return (
-        <div className="post-container" onClick={doReroute}>
-            <img src={url} alt="food"></img>
+        <div className="post-container">
+            <img src={url} alt="food" onClick={doReroute}></img>
             <div className="post-data">
                 <p>{username}</p>
                 <div className='likes'>
