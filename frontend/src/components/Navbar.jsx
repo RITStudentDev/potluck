@@ -6,6 +6,7 @@ export default function Navbar() {
 
     return (
         <div className="nav">
+            <button onClick={() => navigate('/')}>🏠</button>
             <ul>
                 <li><button onClick={() => navigate('/cuisine/chinese')}>Chinese</button></li>
                 <li><button onClick={() => navigate('/cuisine/indian')}>Indian</button></li>

@@ -156,6 +156,6 @@
 
 footer{
     text-align: center;
-    border: 2px solid brown;
-    background-color: rgba(200, 140, 118, 0.22);
+    background-color: #f0b05c;
+    border: solid 2px #c9770c;
 }

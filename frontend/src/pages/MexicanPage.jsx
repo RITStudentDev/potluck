@@ -2,6 +2,7 @@ import '../css/Homepage.css';
 import PostCard from '../components/PostCard';
 import { useState, useEffect } from 'react';
 import { supabase } from '../util/supabaseConn';
+import Navbar from '../components/Navbar';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -26,9 +27,6 @@ export default function Mexicanpage() {
             <Navbar/>
             <div className = "main-feed-container">
                 <header className = "feed-header">
-                    <div className="profile-picture">
-                        👨🏻‍💼
-                    </div>
                     <h1>Potluck</h1>
                     <h2>"Many Cultures, One Home"</h2>
                 </header>

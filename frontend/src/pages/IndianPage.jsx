@@ -27,9 +27,6 @@ export default function Indianpage() {
             <Navbar/>
             <div className = "main-feed-container">
                 <header className = "feed-header">
-                    <div className="profile-picture">
-                        👨🏻‍💼
-                    </div>
                     <h1>Potluck</h1>
                     <h2>"Many Cultures, One Home"</h2>
                 </header>

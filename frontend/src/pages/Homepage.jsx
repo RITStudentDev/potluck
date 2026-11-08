@@ -23,9 +23,9 @@ export default function Homepage() {
 
     return (
         <div className="body">
+            <Navbar/>
             <div className = "main-feed-container">
                 <header className = "feed-header">
-                    <Navbar/>
                     <h1>Potluck</h1>
                     <h2>"Many Cultures, One Home"</h2>
                 </header>
