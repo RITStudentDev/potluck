@@ -50,7 +50,7 @@ async def get_post():
 
 @router.get("/posts/")
 def get_all_posts(limit: int = Query(50, ge=1, lt=100), offset: int = Query(0, ge=0)):
-    queries.get_all_posts(limit, offset)
+    return queries.get_all_posts(limit, offset)
 
 @router.get("/post/card")
 async def get_post():
