@@ -3,12 +3,13 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import LangSelect, { getInitialLanguage } from '../components/LangSelect';
 import { supabase } from '../util/supabaseConn';
+import{useNavigate} from 'react-router-dom';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function RecipePage() {
     const [viewerLang, setViewerLang] = useState(getInitialLanguage);
-
+    const navigate = useNavigate();
     const [recipe, setRecipe] = useState(null);
     const [loading, setLoading] = useState(true);
     const [translation, setTranslation] = useState(null);
@@ -72,8 +73,14 @@ export default function RecipePage() {
 
     return (
         <div className="recipe-container">
+            <button
+                className="back-button"
+                onClick={() => navigate('/')}
+            >
+                ← Back to Home
+            </button>
             <LangSelect value={viewerLang} onChange={setViewerLang}/>
-             <div id="save">
+            <div id="save">
                 <button
                     className="save-button"
                     type="button"
