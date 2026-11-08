@@ -1,0 +1,22 @@
+:root {
+    --font-heading: 'Fraunces', Georgia, serif;
+    --font-body: 'Josefin Sans', Arial, sans-serif;
+}
+
+/* Default font throughout the website */
+body {
+    font-family: var(--font-body);
+    background-color: #f5efe3;
+    color: #302b27;
+    margin: 0;
+}
+
+/* Headings throughout the website */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+}
+
+/* Make form controls inherit the website's body font */
+button, input, textarea, select {
+    font-family: inherit;
+}

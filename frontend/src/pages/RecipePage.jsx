@@ -1,15 +1,48 @@
 import '../css/RecipePage.css';
 import veggiePizza from '../images/Veggie-Pizza-12.jpg';
 import PostCard from '../components/PostCard';
+import { useState } from 'react';
 
 export default function RecipePage() {
+    const [isSaved, setIsSaved] = useState(false);
+    let bookmarkIcon;
+
+    if (isSaved === true) {
+        bookmarkIcon = "⛊";
+    }
+    else {
+        bookmarkIcon = "⛉";
+    }
     return(
         <div className="recipe-container">
+             <div id="save">
+                <button
+                    className="save-button"
+                    type="button"
+                    onClick={() => setIsSaved(!isSaved)}
+                >
+                   {bookmarkIcon}
+                </button>
+                    
+            </div>
             <div className="postImage">
                 <img src={veggiePizza} alt="MainPhoto" />
+               
             </div>
 
-            <PostCard></PostCard>
+            <div className="informationLine">
+                <span id="userNameID">
+                    Username: @jakebolton
+                </span>
+                <button className="like-button" type="button">
+                    <span>🧡 300</span>
+                    {/* <span>300</span> */}
+                </button>
+            </div>
+
+            
+
+            {/* <PostCard></PostCard> */}
 
             <div className="descriptionOfPost">
                 <h1>Recipe Title</h1>
@@ -48,11 +81,17 @@ export default function RecipePage() {
                             <strong> United States</strong>
                         </div>
                     </div>
+                    <hr />
                 </section>
-                <hr />
+                
                 <section className="instructions">
                     <h2>Recipe Instructions: </h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <ol>
+                        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
+                        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
+                        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
+
+                    </ol>
                 </section>
             </div>
         </div>

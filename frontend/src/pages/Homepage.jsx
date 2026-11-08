@@ -13,9 +13,10 @@ export default function Homepage() {
                     <div className="profile-picture">
                         👨🏻‍💼
                     </div>
-                    <h1>Project Food</h1>
-                    
+                    <h1>Potluck</h1>
+                    <h2>"Many Cultures, One Home"</h2>
                 </header>
+                <hr />
                 
                 <main className = "content">
                     <div id="featured-post">
@@ -27,7 +28,7 @@ export default function Homepage() {
                         </div>
                     </div>
 
-                    <div className="post-grid">
+                    {/* <div className="post-grid">
                         <div className="post">
                             <Link className="post" to="/recipe/veggie-pizza">
                                 <img src={veggiePizza} alt="Pizza" />
@@ -49,17 +50,23 @@ export default function Homepage() {
                             
                         </div>
 
-                    </div>
+                    </div> */}
                     
                     <PostCard
-                        username={"Xx_shadow_xX"}
+                        username={"@Xx_shadow_xX"}
                         likenum={2}
                         url={veggiePizza}
                     />
 
+                    <PostCard
+                        username={"@jake-bolton"}
+                        likenum={2}
+                        url={quesadilla}
+                    />
+
                 </main>
 
-                <nav className="bottom-nav">
+                <aside className="side-nav">
                     Filter By Country!
                     <button className="country-filter" type="button">
                         <span className="icon">🌮</span>
@@ -75,8 +82,14 @@ export default function Homepage() {
                         <span className="icon">🪔</span>
                         <span>India</span>
                     </button>
-                </nav>
+                </aside>
             </div>
+
+            <footer>
+                <h3>Potluck! Many cultures, One Home</h3>
+                <h4>Share your culture amongst many others! At home, any recipe deserves to be shared.</h4>
+
+            </footer>
         </div>
         
     );
