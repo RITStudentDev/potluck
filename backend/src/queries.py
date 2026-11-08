@@ -66,7 +66,7 @@ def get_post_card():
 
 def get_all_posts(limits: int = 30, offset: int = 0):
     with Session(engine) as session:
-        records = session.excute(
+        records = session.execute(
             select(
                 User.username,
                 Post.like_num,
