@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar';
 import veggiePizza from '../images/Veggie-Pizza-12.jpg';
 import { useState, useEffect } from 'react';
 import { supabase } from '../util/supabaseConn';
+import TopBar from '../components/TopBar';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -23,16 +24,17 @@ export default function Homepage() {
 
     return (
         <div className="body">
+            <Navbar/>
             <div className = "main-feed-container">
                 <header className = "feed-header">
-                    <Navbar/>
                     <h1>Potluck</h1>
                     <h2>"Many Cultures, One Home"</h2>
                 </header>
                 <hr />
-                
+                <h1 id="featured-recipe-text">Featured Recipe Of The Day!</h1>
+
                 <main className = "content">
-                     <div id="featured-post">
+                    <div id="featured-post">
                         <img src={veggiePizza} alt="MainPhoto" />
                         <div className="recipeInfo">
                                     <h3>Recipe Title: Veggie Pizza</h3> 
@@ -40,6 +42,9 @@ export default function Homepage() {
                                     <p id="description"> A delicious recipe for making a veggie pizza</p>
                         </div>
                     </div>
+
+                    <hr className="feed-divider" />
+
                     
                     {loading ? (
                             <p>Loading...</p>

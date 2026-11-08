@@ -46,6 +46,10 @@
     margin: 0;
 }
 
+#username{
+    font-size: 17px;
+}
+
 /* Likes container */
 .likes {
     display: flex;

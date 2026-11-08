@@ -1,21 +1,23 @@
 import '../css/RecipePage.css';
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import LangSelect, { getInitialLanguage } from '../components/LangSelect';
 import { supabase } from '../util/supabaseConn';
-import{useNavigate} from 'react-router-dom';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function RecipePage() {
-    const [viewerLang, setViewerLang] = useState(getInitialLanguage);
+    const { postId } = useParams();
     const navigate = useNavigate();
+
+    const [viewerLang, setViewerLang] = useState(getInitialLanguage);
     const [recipe, setRecipe] = useState(null);
     const [loading, setLoading] = useState(true);
     const [translation, setTranslation] = useState(null);
     const [showOriginal, setShowOriginal] = useState(false);
-    const { postId } = useParams();
     const [isSaved, setIsSaved] = useState(false);
+    const [likes, setLikes] = useState(0);
+    const [liked, setLiked] = useState(false);
 
     useEffect(() => {
         const controller = new AbortController();
@@ -25,7 +27,12 @@ export default function RecipePage() {
         async function loadPost() {
             try {
                 const res = await fetch(`${API_URL}/post/${postId}`, { signal: controller.signal });
-                if (res.ok) setRecipe(await res.json());
+                if (res.ok) {
+                    const data = await res.json();
+                    setRecipe(data);
+                    setLikes(data.like_num);
+                    setLiked(false);
+                }
             } catch (error) {
                 if (error.name !== 'AbortError') setRecipe(null);
             } finally {
@@ -50,14 +57,23 @@ export default function RecipePage() {
         return () => controller.abort();
     }, [postId, viewerLang]);
 
-    let bookmarkIcon;
+    const handleLike = async () => {
+        if (liked) return;
 
-    if (isSaved === true) {
-        bookmarkIcon = "⛊";
-    }
-    else {
-        bookmarkIcon = "⛉";
-    }
+        setLiked(true);
+        setLikes((n) => n + 1);
+
+        try {
+            const res = await fetch(`${API_URL}/post/${postId}/like`, { method: 'POST' });
+            if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+        } catch (err) {
+            console.error('Like failed:', err);
+            setLiked(false);
+            setLikes((n) => n - 1);
+        }
+    };
+
+    const bookmarkIcon = isSaved ? "⛊" : "⛉";
 
     if (loading) return <p>Loading...</p>;
     if (!recipe) return <p>Post not found.</p>;
@@ -73,39 +89,38 @@ export default function RecipePage() {
 
     return (
         <div className="recipe-container">
-            <button
-                className="back-button"
-                onClick={() => navigate('/')}
-            >
+            <button className="back-button" onClick={() => navigate('/')}>
                 ← Back to Home
             </button>
-            <LangSelect value={viewerLang} onChange={setViewerLang}/>
+            <LangSelect value={viewerLang} onChange={setViewerLang} />
             <div id="save">
                 <button
                     className="save-button"
                     type="button"
                     onClick={() => setIsSaved(!isSaved)}
                 >
-                   {bookmarkIcon}
+                    {bookmarkIcon}
                 </button>
-                    
             </div>
             <div className="postImage">
                 {imageUrl && <img src={imageUrl} alt="MainPhoto" />}
-               
             </div>
 
             <div className="informationLine">
                 <span id="userNameID">
                     Username: @{recipe.username}
                 </span>
-                <div className='likes'>
-                    <p>{recipe.like_num}</p>
+                <div className="likes">
+                    <p>{likes}</p>
                     <label className="heart-btn">
-                    <input type="checkbox" />
-                    <svg className="heart-icon" viewBox="0 0 24 24" xmlns="http://w3.org">
-                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                    </svg>
+                        <input
+                            type="checkbox"
+                            checked={liked}
+                            onChange={handleLike}
+                        />
+                        <svg className="heart-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
                     </label>
                 </div>
             </div>
@@ -124,43 +139,33 @@ export default function RecipePage() {
                             {showOriginal ? 'Show translation' : 'Show original'}
                         </button>
                     )}
-                    <div className ="detailsLayout">
-                        <div className = "detailLayoutItem">
+                    <div className="detailsLayout">
+                        <div className="detailLayoutItem">
                             <span>Preparation Time</span>
                             <strong> 20 minutes</strong>
                         </div>
-
-                        <div className = "detailLayoutItem">
+                        <div className="detailLayoutItem">
                             <span>Cooking Time</span>
                             <strong> 20 minutes</strong>
                         </div>
-
-                        <div className = "detailLayoutItem">
+                        <div className="detailLayoutItem">
                             <span>Total Time</span>
                             <strong> 40 minutes</strong>
                         </div>
-
-                        <div className = "detailLayoutItem">
+                        <div className="detailLayoutItem">
                             <span>Difficulty</span>
                             <strong> Easy</strong>
                         </div>
-
-                        <div className = "detailLayoutItem">
+                        <div className="detailLayoutItem">
                             <span>Servings</span>
                             <strong> 4</strong>
                         </div>
-
-                        <div className = "detailLayoutItem">
+                        <div className="detailLayoutItem">
                             <span>Country of Origin: </span>
                             <strong> United States</strong>
                         </div>
                     </div>
                     <hr />
-                </section>
-                
-                <section className="instructions">
-                    <h2>Recipe Instructions: </h2>
-                    <p>{instructions}</p>
                 </section>
             </div>
         </div>

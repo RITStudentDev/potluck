@@ -6,15 +6,13 @@ import Navbar from '../components/Navbar';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-console.log(`ENV: ${API_URL}`);
-
 export default function Indianpage() {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function loadPosts(){
-            const res = await fetch(`/api/posts/cuisine/indian?limit=30`);
+            const res = await fetch(`${API_URL}/posts/cuisine/indian?limit=30`);
             const feed = await res.json();
             setPosts(feed);
             setLoading(false);
@@ -27,9 +25,6 @@ export default function Indianpage() {
             <Navbar/>
             <div className = "main-feed-container">
                 <header className = "feed-header">
-                    <div className="profile-picture">
-                        👨🏻‍💼
-                    </div>
                     <h1>Potluck</h1>
                     <h2>"Many Cultures, One Home"</h2>
                 </header>
