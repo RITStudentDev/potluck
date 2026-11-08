@@ -2,6 +2,7 @@ from .database import engine
 from .models import Post, PostImages, User, PostTranslation
 from sqlalchemy.orm import Session
 from sqlalchemy import insert, select, desc, update
+from sqlalchemy.exc import IntegrityError
 import hashlib
 
 """
@@ -147,12 +148,13 @@ def like_post(post_id: int):
 
 def get_translation(post_id: int, language: str):
     with Session(engine) as session:
-        return session.execute(
-            select(PostTranslation.description, PostTranslation.description).where(
+        record = session.execute(
+            select(PostTranslation.description, PostTranslation.instructions).where(
                 PostTranslation.post_id == post_id,
                 PostTranslation.language == language,
             )
-        ).scalar_one_or_none()
+        ).one_or_none()
+        return to_dict(record)
 
 def save_translation(post_id: int, language: str, description: str, instructions: str):
     with Session(engine) as session:
@@ -163,5 +165,5 @@ def save_translation(post_id: int, language: str, description: str, instructions
                 )
             )
             session.commit()
-        except:
+        except IntegrityError:
             session.rollback()
