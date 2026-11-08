@@ -1,6 +1,7 @@
 """
 This script seeds CSV data from the assets/ folder
 """
+
 import csv
 import os
 import secrets

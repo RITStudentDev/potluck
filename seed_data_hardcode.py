@@ -1,5 +1,5 @@
 """
-THIS SCRIPT SEEDS THE DATABASE POST, POST_IMAGES, AND USER TABLES.
+This script seeds hard coded data that is defined here.
 """
 
 from backend.src.models import Post, User
