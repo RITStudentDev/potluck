@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Request, status
+from fastapi import APIRouter, HTTPException, Request, status, Query
 from sqlalchemy.exc import IntegrityError
 from fastapi.concurrency import run_in_threadpool
 from . import queries
@@ -41,6 +41,10 @@ async def get_post():
     if post is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Post not found")
     return post
+
+@router.get("/posts/")
+def get_all_posts(limit: int = Query(50, ge=1, l1=100), offset: int = Query(0, ge=0)):
+    queries.get_all_posts(limit, offset)
 
 @router.get("/post/card")
 async def get_post():
