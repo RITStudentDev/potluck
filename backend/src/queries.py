@@ -1,7 +1,7 @@
 from .database import engine
 from .models import Post, PostImages, User, PostTranslation
 from sqlalchemy.orm import Session
-from sqlalchemy import insert, select, desc, update
+from sqlalchemy import insert, select, desc, update, or_
 from sqlalchemy.exc import IntegrityError
 import hashlib
 
@@ -9,6 +9,16 @@ import hashlib
 This file contains functions for SQL queries using SQL Alchemy.
 These functions are called in api.py to handle api logic.
 """
+
+# Keywords used to filter cultural cuisine pages
+CUISINE_KEYWORDS = {
+    "chinese": ["chinese", "china", "stir fry", "stir-fry", "dim sum", "szechuan",
+                "sichuan", "kung pao", "lo mein", "chow mein", "wonton", "中国", "中餐"],
+    "mexican": ["mexican", "mexico", "taco", "burrito", "enchilada", "quesadilla",
+                "salsa", "guacamole", "tamale", "fajita"],
+    "indian": ["indian", "india", "curry", "masala", "tikka", "naan", "biryani",
+               "paneer", "samosa", "tandoori"],
+}
 
 def to_dict(row):
     return dict(row._mapping) if row is not None else None
@@ -60,6 +70,36 @@ def get_post_by_id(post_id: int):
         ).first()
 
         return to_dict(record)
+
+def get_posts_by_keywords(keywords: list[str], limit: int = 30, offset: int = 0):
+    with Session(engine) as session:
+        records = session.execute(
+            select(
+                User.username,
+                Post.like_num,
+                PostImages.image_url,
+                Post.id
+            )
+            .select_from(Post)
+            .outerjoin(PostImages, PostImages.post_id == Post.id)
+            .outerjoin(User, User.id == Post.owner)
+            .where(or_(*[Post.description.ilike(f"%{k}%") for k in keywords]))
+            .order_by(Post.like_num.desc(), Post.id.desc())
+            .limit(limit)
+            .offset(offset)
+        ).all()
+        return [dict(record._mapping) for record in records]
+
+def get_chinese_posts(limit: int = 30, offset: int = 0):
+    return get_posts_by_keywords(CUISINE_KEYWORDS["chinese"], limit, offset)
+
+
+def get_mexican_posts(limit: int = 30, offset: int = 0):
+    return get_posts_by_keywords(CUISINE_KEYWORDS["mexican"], limit, offset)
+
+
+def get_indian_posts(limit: int = 30, offset: int = 0):
+    return get_posts_by_keywords(CUISINE_KEYWORDS["indian"], limit, offset)
 
 def get_post():
     with Session(engine) as session:
