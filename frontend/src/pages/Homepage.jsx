@@ -1,5 +1,6 @@
 import '../css/Homepage.css';
 import PostCard from '../components/PostCard';
+import Navbar from '../components/Navbar';
 import veggiePizza from '../images/Veggie-Pizza-12.jpg';
 import { useState, useEffect } from 'react';
 import { supabase } from '../util/supabaseConn';
@@ -24,9 +25,7 @@ export default function Homepage() {
         <div className="body">
             <div className = "main-feed-container">
                 <header className = "feed-header">
-                    <div className="profile-picture">
-                        👨🏻‍💼
-                    </div>
+                    <Navbar/>
                     <h1>Potluck</h1>
                     <h2>"Many Cultures, One Home"</h2>
                 </header>
@@ -58,24 +57,6 @@ export default function Homepage() {
                             ))
                         )}
                 </main>
-
-                <aside className="side-nav">
-                    Filter By Country!
-                    <button className="country-filter" type="button" href="/cuisine/mexican">
-                        <span className="icon">🌮</span>
-                        <span>Mexico</span>
-                    </button>
-
-                    <button className="country-filter" type="button" href="/cuisine/chinese">
-                        <span className="icon">🏮</span>
-                        <span>China</span>
-                    </button>
-
-                    <button className="country-filter" type="button" href="/cuisine/indian">
-                        <span className="icon">🪔</span>
-                        <span>India</span>
-                    </button>
-                </aside>
             </div>
 
             <footer>

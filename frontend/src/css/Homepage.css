@@ -39,7 +39,6 @@
 } */
 .body {
     --sidebar-width: clamp(150px, 16vw, 210px);
-    padding-left: var(--sidebar-width);
 }
 
 .main-feed-container{
