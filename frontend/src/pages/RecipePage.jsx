@@ -158,10 +158,10 @@ export default function RecipePage() {
                     <hr />
                 </section>
                 
-                <section className="instructions">
-                    <h2>Recipe Instructions: </h2>
+                {/* <section className="instructions">
+                    <h2>Recipe Ingredients: </h2>
                     <p>{instructions}</p>
-                </section>
+                </section> */}
             </div>
         </div>
     );
