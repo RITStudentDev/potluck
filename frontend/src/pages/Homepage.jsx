@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar';
 import veggiePizza from '../images/Veggie-Pizza-12.jpg';
 import { useState, useEffect } from 'react';
 import { supabase } from '../util/supabaseConn';
+import TopBar from '../components/TopBar';
 
 const API_URL = import.meta.env.VITE_API_URL;
 

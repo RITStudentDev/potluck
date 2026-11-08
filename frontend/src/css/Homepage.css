@@ -30,7 +30,7 @@
     align-items: center;
     border: 2px solid white;
     background-color: blanchedalmond;
-    align-self: flex-end;
+    /* align-self: flex-end; */
 }
 
 #featured-recipe-text{

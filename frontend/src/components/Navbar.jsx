@@ -1,4 +1,5 @@
 import "../css/Navbar.css"
+import TopBar from '../components/TopBar';
 import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
@@ -7,11 +8,12 @@ export default function Navbar() {
     return (
         <div className="nav">
             <button onClick={() => navigate('/')}>🏠</button>
-            <ul>
+            <TopBar />
+            {/* <ul>
                 <li><button onClick={() => navigate('/cuisine/chinese')}>Chinese</button></li>
                 <li><button onClick={() => navigate('/cuisine/indian')}>Indian</button></li>
                 <li><button onClick={() => navigate('/cuisine/mexican')}>Mexican</button></li>
-            </ul>
+            </ul> */}
             <div className="profile-picture">
                 👨🏻‍💼
             </div>
