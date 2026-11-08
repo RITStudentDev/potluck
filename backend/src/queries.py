@@ -1,5 +1,5 @@
 from .database import engine
-from .models import Post, PostImages, User
+from .models import Post, PostImages, User, PostTranslation
 from sqlalchemy.orm import Session
 from sqlalchemy import insert, select, desc, update
 import hashlib
@@ -141,3 +141,24 @@ def like_post(post_id: int):
 
         session.commit()
         return True
+
+def get_translation(post_id: int, language: str):
+    with Session(engine) as session:
+        return session.execute(
+            select(PostTranslation.description).where(
+                PostTranslation.post_id == post_id,
+                PostTranslation.language == language,
+            )
+        ).scalar_one_or_none()
+
+def save_translation(post_id: int, language: str, description: str):
+    with Session(engine) as session:
+        try:
+            session.execute(
+                insert(PostTranslation).values(
+                    post_id=post_id, language=language, description=description
+                )
+            )
+            session.commit()
+        except:
+            session.rollback()
