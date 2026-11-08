@@ -4,18 +4,18 @@ import veggiePizza from '../images/Veggie-Pizza-12.jpg';
 import { useState, useEffect } from 'react';
 
 export default function Homepage() {
-        const [posts, setPosts] = useState([]);
-        const [loading, setLoading] = useState(true);
+    const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-        useEffect(() => {
-            async function loadPosts(){
-                const res = await fetch(`/api/posts/?limit=50&offet=0`);
-                const feed = await res.json();
-                setPosts(feed);
-                setLoading(false);
-            }
-            loadPosts();
-        }, []);
+    useEffect(() => {
+        async function loadPosts(){
+            const res = await fetch("/api/posts/?limit=50&offet=0");
+            const feed = await res.json();
+            setPosts(feed);
+            setLoading(false);
+        }
+        loadPosts();
+    }, []);
 
     return (
         <div className="body">
