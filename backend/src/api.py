@@ -34,6 +34,12 @@ async def create_post(request: Request):
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Owner not found")
     return await run_in_threadpool(queries.create_post, owner, url.strip(), description.strip())
 
+@router.post("/post/{post_id}/like", status_code=status.HTTP_204_NO_CONTENT)
+async def like_post(post_id: int):
+    success = await run_in_threadpool(queries.like_post, post_id)
+
+    if not success:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Post not found")
 
 @router.get("/post/")
 async def get_post():
