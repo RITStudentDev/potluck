@@ -1,13 +1,13 @@
 import '../css/Homepage.css';
 import PostCard from '../components/PostCard';
-import veggiePizza from '../images/Veggie-Pizza-12.jpg';
+import Navbar from '../components/Navbar';
+import SideMenu from '../components/SideMenu';
 import { useState, useEffect } from 'react';
 import { supabase } from '../util/supabaseConn';
-import Navbar from '../components/Navbar';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export default function Chinesepage() {
+export default function MexicanPage() {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -24,15 +24,18 @@ export default function Chinesepage() {
     return (
         <div className="body">
             <Navbar/>
-            <div className = "main-feed-container">
-                <header className = "feed-header">
-                    <h1>Potluck</h1>
-                    <h2>"Many Cultures, One Home"</h2>
-                </header>
-                <hr />
-                
-                <main className = "content">
-                    {loading ? (
+
+            <div className="page-layout">
+                <SideMenu/>
+
+                <div className="main-feed-container">
+                    <header className="feed-header">
+                        <h1>Chinese</h1>
+                    </header>
+                    <hr />
+
+                    <main className="content">
+                        {loading ? (
                             <p>Loading...</p>
                         ) : posts.length === 0 ? (
                             <p>No posts found</p>
@@ -47,15 +50,9 @@ export default function Chinesepage() {
                                 />
                             ))
                         )}
-                </main>
+                    </main>
+                </div>
             </div>
-
-            <footer>
-                <h3>Potluck! Many cultures, One Home</h3>
-                <h4>Share your culture amongst many others! At home, any recipe deserves to be shared.</h4>
-
-            </footer>
         </div>
-        
     );
 }

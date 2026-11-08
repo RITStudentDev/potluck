@@ -1,6 +1,7 @@
 import '../css/Homepage.css';
 import PostCard from '../components/PostCard';
 import Navbar from '../components/Navbar';
+import SideMenu from '../components/SideMenu';
 import veggiePizza from '../images/Veggie-Pizza-12.jpg';
 import { useState, useEffect } from 'react';
 import { supabase } from '../util/supabaseConn';
@@ -24,28 +25,30 @@ export default function Homepage() {
     return (
         <div className="body">
             <Navbar/>
-            <div className = "main-feed-container">
-                <header className = "feed-header">
-                    <h1>Potluck</h1>
-                    <h2>"Many Cultures, One Home"</h2>
-                </header>
-                <hr />
-                <h1 id="featured-recipe-text">Featured Recipe Of The Day!</h1>
 
-                <main className = "content">
-                    <div id="featured-post">
-                        <img src={veggiePizza} alt="MainPhoto" />
-                        <div className="recipeInfo">
-                                    <h3>Recipe Title: Veggie Pizza</h3> 
-                                    <p>By: @jakebolton</p>
-                                    <p id="description"> A delicious recipe for making a veggie pizza</p>
+            <div className="page-layout">
+                <SideMenu/>
+
+                <div className="main-feed-container">
+                    <header className="feed-header">
+                        <h1>Potluck</h1>
+                    </header>
+                    <hr />
+                    <h1 id="featured-recipe-text">Featured Recipe Of The Day!</h1>
+
+                    <main className="content">
+                        <div id="featured-post">
+                            <img src={veggiePizza} alt="MainPhoto" />
+                            <div className="recipeInfo">
+                                <h3>Recipe Title: Veggie Pizza</h3>
+                                <p>By: @jakebolton</p>
+                                <p id="description"> A delicious recipe for making a veggie pizza</p>
+                            </div>
                         </div>
-                    </div>
 
-                    <hr className="feed-divider" />
+                        <hr className="feed-divider" />
 
-                    
-                    {loading ? (
+                        {loading ? (
                             <p>Loading...</p>
                         ) : posts.length === 0 ? (
                             <p>No posts found</p>
@@ -60,15 +63,9 @@ export default function Homepage() {
                                 />
                             ))
                         )}
-                </main>
+                    </main>
+                </div>
             </div>
-
-            <footer>
-                <h3>Potluck! Many cultures, One Home</h3>
-                <h4>Share your culture amongst many others! At home, any recipe deserves to be shared.</h4>
-
-            </footer>
         </div>
-        
     );
 }
